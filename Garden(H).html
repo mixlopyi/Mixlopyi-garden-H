@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixlopyi Garden-H</title>
+    <link rel="stylesheet" href="Garden-H.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- رأس اللعبة -->
+        <div class="game-header">
+            <h1 class="game-title">Mixlopyi Garden-H 🌱</h1>
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">💰 العملات:</span>
+                    <span class="stat-value" id="coins">100</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">📊 المستوى:</span>
+                    <span class="stat-value" id="level">1</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">📚 المكتشفة:</span>
+                    <span class="stat-value" id="discovered">1/100</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">🏰 الحدائق:</span>
+                    <span class="stat-value" id="gardens">1</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <!-- قسم الحديقة -->
+            <div class="garden-section">
+                <h2 class="section-title">🌳 الحديقة الرئيسية</h2>
+                <div class="garden-grid" id="gardenGrid"></div>
+                <button class="btn btn-primary" id="addPlantBtn">➕ إضافة نبتة جديدة</button>
+            </div>
+
+            <!-- لوحة التحكم -->
+            <div class="control-panel">
+                <!-- قسم السوائل -->
+                <div class="liquids-section">
+                    <h3>المحاليل</h3>
+                    <div class="liquids-grid" id="liquidsGrid"></div>
+                </div>
+
+                <!-- قسم الخلط -->
+                <div class="mixing-section">
+                    <h3>🧪 الخلط</h3>
+                    <div class="mixing-container">
+                        <div class="selected-liquids" id="selectedLiquids">
+                            <p class="empty-text">اختر المحاليل للخلط...</p>
+                        </div>
+                        <button class="btn btn-secondary" id="mixBtn">🔀 خلط</button>
+                        <button class="btn btn-danger" id="clearMixBtn">🗑️ مسح</button>
+                    </div>
+                </div>
+
+                <!-- قسم العالم -->
+                <div class="world-section">
+                    <h3>🌍 العالم</h3>
+                    <button class="btn btn-info" id="worldBtn">🗺️ خريطة العالم</button>
+                    <button class="btn btn-info" id="tradeBtn">🏪 المتجر</button>
+                </div>
+
+                <!-- قسم المعلومات -->
+                <div class="info-section">
+                    <button class="btn btn-info" id="journalBtn">📖 كتاب الحديقة</button>
+                    <button class="btn btn-info" id="achievementsBtn">🏆 الإنجازات</button>
+                    <button class="btn btn-info" id="statsBtn">📊 الإحصائيات</button>
+                    <button class="btn btn-info" id="settingsBtn">⚙️ الإعدادات</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط الحالة -->
+        <div class="status-bar">
+            <div class="time-display" id="timeDisplay">⏰ الوقت: نهار</div>
+            <div class="weather-display" id="weatherDisplay">🌤️ الطقس: مشمس</div>
+        </div>
+    </div>
+
+    <!-- نوافذ الحوار -->
+
+    <!-- نافذة تفاصيل النبتة -->
+    <div id="plantModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="plant-details">
+                <div class="plant-sprite" id="plantSprite">🌱</div>
+                <div class="plant-info">
+                    <h3 id="plantName">يوني</h3>
+                    <div class="plant-stats">
+                        <div class="stat-bar">
+                            <label>الصحة:</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="healthBar" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-bar">
+                            <label>الخبرة:</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="expBar" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-bar">
+                            <label>الرطوبة:</label>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="moistureBar" style="width: 50%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-traits" id="plantTraits"></div>
+                </div>
+            </div>
+            <div class="plant-actions">
+                <button class="btn btn-primary" id="waterBtn">💧 سقي بماء نقي</button>
+                <button class="btn btn-secondary" id="applyLiquidBtn">🧪 تطبيق المحاليل</button>
+                <button class="btn btn-danger" id="removeBtn">🗑️ إزالة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة كتاب الحديقة -->
+    <div id="journalModal" class="modal">
+        <div class="modal-content journal-modal">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">📖 كتاب الحديقة</h2>
+            <div class="journal-grid" id="journalGrid"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الإنجازات -->
+    <div id="achievementsModal" class="modal">
+        <div class="modal-content achievements-modal">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">🏆 الإنجازات</h2>
+            <div class="achievements-list" id="achievementsList"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الإحصائيات -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">📊 الإحصائيات</h2>
+            <div id="statsContent" style="position: relative; z-index: 1;"></div>
+        </div>
+    </div>
+
+    <!-- نافذة الإعدادات -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content settings-modal">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">⚙️ الإعدادات</h2>
+            <div class="settings-list">
+                <label class="setting-item">
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span>🔊 تفعيل الصوت</span>
+                </label>
+                <label class="setting-item">
+                    <input type="checkbox" id="musicToggle" checked>
+                    <span>🎵 تفعيل الموسيقى</span>
+                </label>
+                <label class="setting-item">
+                    <input type="checkbox" id="particlesToggle" checked>
+                    <span>✨ تفعيل المؤثرات</span>
+                </label>
+                <button class="btn btn-danger" id="resetBtn">🔄 إعادة تعيين اللعبة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة العالم -->
+    <div id="worldModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">🌍 خريطة العالم</h2>
+            <div id="worldContent" style="position: relative; z-index: 1;"></div>
+        </div>
+    </div>
+
+    <!-- نافذة المتجر -->
+    <div id="shopModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 style="color: var(--primary-color); margin-bottom: 15px;">🏪 المتجر</h2>
+            <div id="shopContent" style="position: relative; z-index: 1;"></div>
+        </div>
+    </div>
+
+    <!-- إشعارات -->
+    <div class="notifications" id="notifications"></div>
+<script src="garden-game.js"></script>
+    
+</body>
+</html>
